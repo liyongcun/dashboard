@@ -41,16 +41,16 @@ function my_confirm(msg, btns, yes_func, no_func) {
 // - business function -
 
 function login() {
-	var raw = $('#ldap').prop('checked');
-	if (raw) {
-		useLdap = '1'
-	} else {
-		useLdap = '0'
-	}
+	// var raw = $('#ldap').prop('checked');
+	// if (raw) {
+	// 	useLdap = '1'
+	// } else {
+	// 	useLdap = '0'
+	// }
 	$.post('/auth/login', {
 		'name' : $('#name').val(),
 		'password' : $("#password").val(),
-        'ldap' : useLdap
+        // 'ldap' : useLdap
 	}, function(json) {
 		if (json.msg.length > 0) {
 			err_message_quietly(json.msg);

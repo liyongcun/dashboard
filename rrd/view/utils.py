@@ -136,73 +136,73 @@ def admin_login_user(name, Apitoken):
     set_user_cookie(ut, session)
     return ut
 
-def ldap_login_user(name, password):
-    import ldap
-    if not config.LDAP_ENABLED:
-        raise Exception("ldap not enabled")
-
-    bind_dn = config.LDAP_BINDDN
-    bind_pass = config.LDAP_BIND_PASS
-    base_dn = config.LDAP_BASE_DN
-
-    search_filter = config.LDAP_SEARCH_FMT
-    try:
-        search_filter = config.LDAP_SEARCH_FMT %name
-    except TypeError: pass
-
-    cli = None
-    try:
-        ldap_server = config.LDAP_SERVER if (config.LDAP_SERVER.startswith("ldap://") or config.LDAP_SERVER.startswith("ldaps://")) else "ldaps://%s" % config.LDAP_SERVER if config.LDAP_TLS_START_TLS else "ldap://%s" % config.LDAP_SERVER
-        log.debug("ldap_server:%s bind_dn:%s base_dn:%s filter:%s attrs:%s" %(ldap_server, bind_dn, config.LDAP_BASE_DN, search_filter, config.LDAP_ATTRS))
-        cli = ldap.initialize(ldap_server)
-        cli.protocol_version = ldap.VERSION3
-        if config.LDAP_TLS_START_TLS or ldap_server.startswith('ldaps://'):
-            if config.LDAP_TLS_CACERTFILE:
-                cli.set_option(ldap.OPT_X_TLS_CACERTFILE, config.LDAP_TLS_CACERTFILE)
-            if config.LDAP_TLS_CERTFILE:
-                cli.set_option(ldap.OPT_X_TLS_CERTFILE, config.LDAP_TLS_CERTFILE)
-            if config.LDAP_TLS_KEYFILE:
-                cli.set_option(ldap.OPT_X_TLS_KEYFILE, config.LDAP_TLS_KEYFILE)
-            if config.LDAP_TLS_REQUIRE_CERT:
-                cli.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, config.LDAP_TLS_REQUIRE_CERT)
-            if config.LDAP_TLS_CIPHER_SUITE:
-                cli.set_option(ldap.OPT_X_TLS_CIPHER_SUITE, config.LDAP_TLS_CIPHER_SUITE)
-        cli.bind_s(bind_dn, bind_pass, ldap.AUTH_SIMPLE)
-        result = cli.search_s(base_dn, ldap.SCOPE_SUBTREE, search_filter, config.LDAP_ATTRS)
-        log.debug("ldap result: %s" % result)
-        user_dn = result[0][0]
-        cli.bind_s(user_dn, password, ldap.AUTH_SIMPLE)
-        d = result[0][1]
-        email = d['mail'][0]
-        cnname = d['cn'][0]
-        if 'sn' in d and 'givenName' in d:
-            cnname = d['givenName'][0] + ' ' + d['sn'][0]
-        if 'displayName' in d:
-            cnname = d['displayName'][0]
-        if 'telephoneNumber' in d:
-            phone = d['telephoneNumber'] and d['telephoneNumber'][0] or ""
-        else:
-            phone = ""
-    
-        return {
-                "name": name,
-                "password": password,
-                "cnname": cnname,
-                "email": email,
-                "phone": phone,
-        }
-    except ldap.LDAPError as e:
-        if "desc" in e[0]:
-            raise NameError(e[0]["desc"])
-        cli and cli.unbind_s()
-        raise e
-    except (IndexError, KeyError) as e:
-        if str(e) == "list index out of range":
-            raise IndexError("no such user")
-            # result = [], so result out of range
-        raise e
-    finally:
-        cli and cli.unbind_s()
+# def ldap_login_user(name, password):
+#     import ldap
+#     if not config.LDAP_ENABLED:
+#         raise Exception("ldap not enabled")
+#
+#     bind_dn = config.LDAP_BINDDN
+#     bind_pass = config.LDAP_BIND_PASS
+#     base_dn = config.LDAP_BASE_DN
+#
+#     search_filter = config.LDAP_SEARCH_FMT
+#     try:
+#         search_filter = config.LDAP_SEARCH_FMT %name
+#     except TypeError: pass
+#
+#     cli = None
+#     try:
+#         ldap_server = config.LDAP_SERVER if (config.LDAP_SERVER.startswith("ldap://") or config.LDAP_SERVER.startswith("ldaps://")) else "ldaps://%s" % config.LDAP_SERVER if config.LDAP_TLS_START_TLS else "ldap://%s" % config.LDAP_SERVER
+#         log.debug("ldap_server:%s bind_dn:%s base_dn:%s filter:%s attrs:%s" %(ldap_server, bind_dn, config.LDAP_BASE_DN, search_filter, config.LDAP_ATTRS))
+#         cli = ldap.initialize(ldap_server)
+#         cli.protocol_version = ldap.VERSION3
+#         if config.LDAP_TLS_START_TLS or ldap_server.startswith('ldaps://'):
+#             if config.LDAP_TLS_CACERTFILE:
+#                 cli.set_option(ldap.OPT_X_TLS_CACERTFILE, config.LDAP_TLS_CACERTFILE)
+#             if config.LDAP_TLS_CERTFILE:
+#                 cli.set_option(ldap.OPT_X_TLS_CERTFILE, config.LDAP_TLS_CERTFILE)
+#             if config.LDAP_TLS_KEYFILE:
+#                 cli.set_option(ldap.OPT_X_TLS_KEYFILE, config.LDAP_TLS_KEYFILE)
+#             if config.LDAP_TLS_REQUIRE_CERT:
+#                 cli.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, config.LDAP_TLS_REQUIRE_CERT)
+#             if config.LDAP_TLS_CIPHER_SUITE:
+#                 cli.set_option(ldap.OPT_X_TLS_CIPHER_SUITE, config.LDAP_TLS_CIPHER_SUITE)
+#         cli.bind_s(bind_dn, bind_pass, ldap.AUTH_SIMPLE)
+#         result = cli.search_s(base_dn, ldap.SCOPE_SUBTREE, search_filter, config.LDAP_ATTRS)
+#         log.debug("ldap result: %s" % result)
+#         user_dn = result[0][0]
+#         cli.bind_s(user_dn, password, ldap.AUTH_SIMPLE)
+#         d = result[0][1]
+#         email = d['mail'][0]
+#         cnname = d['cn'][0]
+#         if 'sn' in d and 'givenName' in d:
+#             cnname = d['givenName'][0] + ' ' + d['sn'][0]
+#         if 'displayName' in d:
+#             cnname = d['displayName'][0]
+#         if 'telephoneNumber' in d:
+#             phone = d['telephoneNumber'] and d['telephoneNumber'][0] or ""
+#         else:
+#             phone = ""
+#
+#         return {
+#                 "name": name,
+#                 "password": password,
+#                 "cnname": cnname,
+#                 "email": email,
+#                 "phone": phone,
+#         }
+#     except ldap.LDAPError as e:
+#         if "desc" in e[0]:
+#             raise NameError(e[0]["desc"])
+#         cli and cli.unbind_s()
+#         raise e
+#     except (IndexError, KeyError) as e:
+#         if str(e) == "list index out of range":
+#             raise IndexError("no such user")
+#             # result = [], so result out of range
+#         raise e
+#     finally:
+#         cli and cli.unbind_s()
 
 def get_Apitoken(name, password):
     d = {

@@ -44,39 +44,39 @@ def auth_login():
 
         name = request.form.get("name")
         password = request.form.get("password")
-        ldap = request.form.get("ldap") or "0"
+        # ldap = request.form.get("ldap") or "0"
 
         if not name or not password:
             ret["msg"] = "no name or password"
             return json.dumps(ret)
 
-        if ldap == "1":
-            try:
-                ldap_info = view_utils.ldap_login_user(name, password)
-                password = id_generator()
-                user_info = {
-                    "name": name,
-                    "password": password,
-                    "cnname": ldap_info['cnname'],
-                    "email": ldap_info['email'],
-                    "phone": ldap_info['phone'],
-                }
-                Apitoken = view_utils.get_Apitoken(config.API_USER, config.API_PASS)
-
-                ut = view_utils.admin_login_user(name, Apitoken)
-                if not ut:
-                    view_utils.create_user(user_info)
-                    ut = view_utils.admin_login_user(name, Apitoken)
-                    #if user not exist, create user , signup must be enabled
-                ret["data"] = {
-                        "name": ut.name,
-                        "sig": ut.sig,
-                }
-                return json.dumps(ret)
-					
-            except Exception as e:
-                ret["msg"] = str(e)
-                return json.dumps(ret)
+        # if ldap == "1":
+        #     try:
+        #         ldap_info = view_utils.ldap_login_user(name, password)
+        #         password = id_generator()
+        #         user_info = {
+        #             "name": name,
+        #             "password": password,
+        #             "cnname": ldap_info['cnname'],
+        #             "email": ldap_info['email'],
+        #             "phone": ldap_info['phone'],
+        #         }
+        #         Apitoken = view_utils.get_Apitoken(config.API_USER, config.API_PASS)
+        #
+        #         ut = view_utils.admin_login_user(name, Apitoken)
+        #         if not ut:
+        #             view_utils.create_user(user_info)
+        #             ut = view_utils.admin_login_user(name, Apitoken)
+        #             #if user not exist, create user , signup must be enabled
+        #         ret["data"] = {
+        #                 "name": ut.name,
+        #                 "sig": ut.sig,
+        #         }
+        #         return json.dumps(ret)
+		#
+        #     except Exception as e:
+        #         ret["msg"] = str(e)
+        #         return json.dumps(ret)
 
         try:
             ut = view_utils.login_user(name, password)
