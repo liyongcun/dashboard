@@ -5,8 +5,8 @@ ENV workdir=$prefix/dashboard
 
 RUN apk add --no-cache \
     ca-certificates bash git g++ perl make \
-    py-mysqldb \
-    py-pyldap
+    py-mysqldb
+#    py-pyldap
 
 RUN mkdir -p $prefix
 

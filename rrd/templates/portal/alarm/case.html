@@ -16,16 +16,16 @@
                     [第<span class="orange">#{{case.current_step}}</span>次/最大{{case.max_step}}次]
                     <span class="orange">{{case.timestamp|time_duration}}</span>
                     <span class="gray">[</span>
-                    <a href="/portal/template/view/{{case.template_id}}" target="_blank">template</a>
+                    <a href="/portal/template/view/{{case.template_id}}" target="_blank">模板</a>
 
                     {%if case.strategy_id>0%}
                     <span class="cut-line">¦</span>
-                    <a href="/portal/strategy/{{case.strategy_id}}" target="_blank">strategy</a>
+                    <a href="/portal/strategy/{{case.strategy_id}}" target="_blank">告警策略</a>
                     {%endif%}
 
                     {%if case.expression_id>0%}
                     <span class="cut-line">¦</span>
-                    <a href="/portal/expression/view/{{case.expression_id}}" target="_blank">expression</a>
+                    <a href="/portal/expression/view/{{case.expression_id}}" target="_blank">告警表达式</a>
                     {%endif%}
 
                     <span class="cut-line">¦</span>

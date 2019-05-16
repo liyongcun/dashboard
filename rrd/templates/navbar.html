@@ -3,23 +3,23 @@
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
         </button>
-        <a class="navbar-brand" href="/">Falcon+</a>
+        <a class="navbar-brand" href="/">监控系统</a>
     </div>
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav navbar-right">
-         <li {%if g.nav_menu == "nav_dashboard"%}class="active"{%endif%}><a href="/">Dashboard</a></li>
+         <li {%if g.nav_menu == "nav_dashboard"%}class="active"{%endif%}><a href="/">看板</a></li>
          <li class="dropdown" {%if g.nav_menu == "nav_screen"%}class="active"{%endif%}>
-           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Screen<span class="caret"></span></a>
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">监控图<span class="caret"></span></a>
            <ul class="dropdown-menu" role="menu" style="font-size:12px;">
-               <li><a href="/screen">screens</a></li>
-               <li><a href="/screen/add">+screen</a></li>
+               <li><a href="/screen">监控图列表</a></li>
+               <li><a href="/screen/add">添加监控图</a></li>
            </ul>
           </li>
-          <li {%if g.nav_menu == "p_hostgroup"%}class="active"{%endif%}><a href="/portal/hostgroup">HostGroups</a></li>
-          <li {%if g.nav_menu == "p_template"%}class="active"{%endif%}><a href="/portal/template">Templates</a></li>
-          <li {%if g.nav_menu == "p_expression"%}class="active"{%endif%}><a href="/portal/expression">Expressions</a></li>
-          <li {%if g.nav_menu == "p_nodata"%}class="active"{%endif%}><a href="/portal/nodata">Nodata</a></li>
-          <li {%if g.nav_menu == "p_alarm-dash"%}class="active"{%endif%}><a href="/portal/alarm-dash/case">Alarm-Dashboard</a></li>
+          <li {%if g.nav_menu == "p_hostgroup"%}class="active"{%endif%}><a href="/portal/hostgroup">主机组</a></li>
+          <li {%if g.nav_menu == "p_template"%}class="active"{%endif%}><a href="/portal/template">告警模板</a></li>
+          <li {%if g.nav_menu == "p_expression"%}class="active"{%endif%}><a href="/portal/expression">告警表达式</a></li>
+          <li {%if g.nav_menu == "p_nodata"%}class="active"{%endif%}><a href="/portal/nodata">空数据监控</a></li>
+          <li {%if g.nav_menu == "p_alarm-dash"%}class="active"{%endif%}><a href="/portal/alarm-dash/case">告警列表</a></li>
           <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                   {%if g.user%} Welcome {{g.user.name}}{%else%}Sign in{%endif%}<span class="caret"></span></a>
@@ -33,7 +33,7 @@
                       <li><a href="/auth/login">Login</a></li>
                       <li><a href="/auth/register">Sign Up</a></li>
                   {%endif%}
-                  <li><a href="https://github.com/open-falcon/dashboard">fork me on Github</a></li>
+{#                  <li><a href="https://github.com/open-falcon/dashboard">fork me on Github</a></li>#}
               </ul>
           </li>
         </ul>
