@@ -2,7 +2,19 @@
 
 WORKSPACE=$(cd $(dirname $0)/; pwd)
 cd $WORKSPACE
-
+sed -i "s#WORKSPACE#${WORKSPACE}#g"  $WORKSPACE/env/bin/python-config
+sed -i "s#WORKSPACE#${WORKSPACE}#g"  $WORKSPACE/env/bin/activate
+sed -i "s#WORKSPACE#${WORKSPACE}#g"  ${WORKSPACE}/env/bin/easy_install
+sed -i "s#WORKSPACE#${WORKSPACE}#g"  ${WORKSPACE}/env/bin/easy_install-2.7
+sed -i "s#WORKSPACE#${WORKSPACE}#g"  ${WORKSPACE}/env/bin/pip
+sed -i "s#WORKSPACE#${WORKSPACE}#g"  ${WORKSPACE}/env/bin/pip2
+sed -i "s#WORKSPACE#${WORKSPACE}#g"  ${WORKSPACE}/env/bin/pip2.7
+sed -i "s#WORKSPACE#${WORKSPACE}#g"  ${WORKSPACE}/env/bin/wheel
+sed -i "s#WORKSPACE#${WORKSPACE}#g"  ${WORKSPACE}/env/bin/activate.fish
+sed -i "s#WORKSPACE#${WORKSPACE}#g"  ${WORKSPACE}/env/bin/activate.csh
+sed -i "s#WORKSPACE#${WORKSPACE}#g"  ${WORKSPACE}/env/bin/pybabel
+sed -i "s#WORKSPACE#${WORKSPACE}#g"  ${WORKSPACE}/env/bin/gunicorn
+sed -i "s#WORKSPACE#${WORKSPACE}#g"  ${WORKSPACE}/env/bin/gunicorn_paster 
 mkdir -p var
 
 module=dashboard
